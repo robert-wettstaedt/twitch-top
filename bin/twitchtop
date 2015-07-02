@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+require( 'coffee-script/register' );
+
+require( '../lib/twitchAPI' ).fetch();
+require( '../lib/input' ).start();

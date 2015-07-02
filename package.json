@@ -1,0 +1,29 @@
+{
+  "name": "twitchtop",
+  "version": "0.0.1",
+  "description": "Browse Twitch's live channels from your command line; select one and watch it",
+  "main": "lib",
+  "bin": {
+    "twitchtop": "bin/twitchtop"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/r-wettstaedt/twitch-top.git"
+  },
+  "author": "Robert Wettstädt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/r-wettstaedt/twitch-top/issues"
+  },
+  "homepage": "https://github.com/r-wettstaedt/twitch-top",
+  "dependencies": {
+    "chalk": "^1.1.0",
+    "coffee-script": "^1.9.3",
+    "commander": "^2.8.1",
+    "shelljs": "^0.5.1"
+  },
+  "devDependencies": {}
+}
