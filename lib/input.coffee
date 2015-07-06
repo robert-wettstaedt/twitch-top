@@ -37,6 +37,9 @@ module.exports =
                     livestreamer.quality = parts[1]
                     printer.help()
 
+            else if -1 < @commands.refresh.cmds.indexOf text
+                API.fetch refresh : true
+
             else
                 printer.invalidCommand()
 
@@ -52,11 +55,15 @@ module.exports =
             description : 'show more results'
 
         exit : 
-            cmds : [ 'quit', 'exit' ]
+            cmds : [ 'q', 'quit', 'exit' ]
             description : 'quit twitch-top'
 
         quality : 
-            cmds : [ 'q', 'quality' ]
-            args : [ 'best', 'high', 'medium', 'low', 'mobile' ]
+            cmds : [ 'y', 'quality' ]
+            args : [ 'best', 'high', 'medium', 'low', 'mobile', 'worst', 'audio' ]
             description : 'change the quality'
+
+        refresh :
+            cmds : [ 'r', 'refresh' ]
+            description : 'refresh list'
 

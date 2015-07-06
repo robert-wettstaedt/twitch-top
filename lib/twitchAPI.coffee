@@ -10,7 +10,9 @@ streams = []
 module.exports =
 
 
-    fetch : ->
+    fetch : ( opts ) ->
+
+        offset = 0 if opts?.refresh
 
         printer.fetching()
 
