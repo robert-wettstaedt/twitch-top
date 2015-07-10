@@ -10,15 +10,19 @@ module.exports =
         console.log "[#{namespace}] #{msg}"
 
 
+    clear : ->
+        process.stdout.clearLine()
+        process.stdout.cursorTo 0
+
+
     fetching : ->
 
         output = ''
 
         output += '\n'
         output += chalk.green '\tFetching channels..'
-        output += '\n'
 
-        console.log output
+        process.stdout.write output
 
 
     streams : ( streams ) ->

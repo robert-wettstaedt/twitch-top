@@ -18,6 +18,9 @@ and run with
 twitchtop
 ```
 
+![Startup prompt](http://i.imgur.com/UFbOpKd.png?1)
+
+
 ### Roadmap
 * Adapt number of streams per page to terminal window height
 * Login with credentials to browse followed channels

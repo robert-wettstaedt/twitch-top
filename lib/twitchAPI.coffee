@@ -22,6 +22,7 @@ exports = module.exports =
 
         https.request url , ( res ) ->
 
+            printer.clear()
             data = ''
 
             res.on 'data', ( chunk ) ->
