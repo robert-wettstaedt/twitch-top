@@ -25,6 +25,7 @@
     "commander": "^2.8.1",
     "moment": "^2.10.3",
     "shelljs": "^0.5.1",
+    "tmi.js": "0.0.16"
   },
   "devDependencies": {}
 }

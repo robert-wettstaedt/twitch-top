@@ -24,6 +24,8 @@ process.stdin.on 'data', ( text ) ->
         if -1 < commands.quality.args.indexOf parts[1]
             ee.emit 'selectQuality', parts[1]
 
+    else if -1 < commands.chat.cmds.indexOf text
+        ee.emit 'toggleChat'
 
     else if -1 < commands.exit.cmds.indexOf text
         printer.exit()

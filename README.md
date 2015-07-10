@@ -19,8 +19,8 @@ twitchtop
 ```
 
 ### Roadmap
+* Adapt number of streams per page to terminal window height
 * Login with credentials to browse followed channels
-* Display chat during streaming
 
 ### License
 
