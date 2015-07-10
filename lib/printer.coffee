@@ -1,11 +1,13 @@
-chalk = require 'chalk'
+chalk       = require 'chalk'
 
-
-input = require './input'
-livestreamer = require './livestreamer'
-
+commands    = require './commands'
+config      = require './config'
 
 module.exports = 
+
+    log : ( namespace, msg ) ->
+
+        console.log "[#{namespace}] #{msg}"
 
 
     fetching : ->
@@ -20,6 +22,7 @@ module.exports =
 
 
     streams : ( streams ) ->
+        
         output = ''
 
         for stream, index in streams
@@ -32,20 +35,29 @@ module.exports =
 
             output += "\n ----- \n"
 
-        console.log output#.join()
+        console.log output
         @help()
 
 
-    help : ->
+    quality : ->
 
         output = ''
 
         output += '\t'
-        output += "Selected quality: #{livestreamer.quality}"
-        output += '\n\n'
+        output += "Selected quality: #{config.read().quality}"
+        output += '\n'
 
-        for command of input.commands
-            command = input.commands[command]
+        console.log output
+
+
+    help : ->
+
+        @quality()
+
+        output = ''
+
+        for command of commands
+            command = commands[command]
 
             output += '\t'
 

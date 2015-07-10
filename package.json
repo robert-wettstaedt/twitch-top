@@ -23,7 +23,8 @@
     "chalk": "^1.1.0",
     "coffee-script": "^1.9.3",
     "commander": "^2.8.1",
-    "shelljs": "^0.5.1"
+    "moment": "^2.10.3",
+    "shelljs": "^0.5.1",
   },
   "devDependencies": {}
 }

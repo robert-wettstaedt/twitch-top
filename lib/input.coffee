@@ -1,69 +1,36 @@
-util = require 'util'
+ee          = new ( require( 'events' ).EventEmitter )()
+
+commands    = require './commands'
+printer     = require './printer'
 
 process.stdin.resume()
 process.stdin.setEncoding 'utf8'
 
+process.stdin.on 'data', ( text ) ->
 
-module.exports =
+    text = text.replace '\n', ''
 
+    if not isNaN index = parseInt text, 10
+        ee.emit 'selectStream', index
 
-    start : ->
+    else if -1 < commands.refresh.cmds.indexOf text
+        ee.emit 'loadStreams', refresh : true
 
-        process.stdin.on 'data', ( text ) =>
+    else if -1 < commands.more.cmds.indexOf text 
+        ee.emit 'loadStreams', more : true
 
-            printer = require './printer'
-            API     = require './twitchAPI'
-            livestreamer = require './livestreamer'
+    else if -1 < commands.quality.cmds.indexOf ( parts = text.split( ' ' ) )[0]
 
-
-            text = text.replace '\n', ''
-
-            # console.log 'received data:', util.inspect(text)
-            
-
-            if not isNaN index = parseInt text, 10
-                livestreamer.start index
-
-            else if -1 < @commands.exit.cmds.indexOf text
-                printer.exit()
-                process.exit()
-
-            else if -1 < @commands.more.cmds.indexOf text 
-                API.fetch()
-
-            else if -1 < @commands.quality.cmds.indexOf ( parts = text.split( ' ' ) )[0]
-
-                if -1 < @commands.quality.args.indexOf parts[1]
-                    livestreamer.quality = parts[1]
-                    printer.help()
-
-            else if -1 < @commands.refresh.cmds.indexOf text
-                API.fetch refresh : true
-
-            else
-                printer.invalidCommand()
+        if -1 < commands.quality.args.indexOf parts[1]
+            ee.emit 'selectQuality', parts[1]
 
 
-    commands :
-        
-        stream : 
-            cmds : [ '#' ]
-            description : 'start livestreamer to stream the selected channel'
+    else if -1 < commands.exit.cmds.indexOf text
+        printer.exit()
+        process.exit()
 
-        more : 
-            cmds : [ 'm', 'more' ]
-            description : 'show more results'
+    else
+        printer.invalidCommand()
 
-        exit : 
-            cmds : [ 'q', 'quit', 'exit' ]
-            description : 'quit twitch-top'
 
-        quality : 
-            cmds : [ 'y', 'quality' ]
-            args : [ 'best', 'high', 'medium', 'low', 'mobile', 'worst', 'audio' ]
-            description : 'change the quality'
-
-        refresh :
-            cmds : [ 'r', 'refresh' ]
-            description : 'refresh list'
-
+module.exports = ee
