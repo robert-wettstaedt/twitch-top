@@ -125,7 +125,9 @@ module.exports =
 
         console.log output
 
-        setTimeout @help, 300
+        setTimeout => 
+            @help()
+        , 300
 
 
 

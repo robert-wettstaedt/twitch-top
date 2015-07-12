@@ -22,7 +22,6 @@ exports = module.exports =
 
         https.request url , ( res ) ->
 
-            printer.clear()
             data = ''
 
             res.on 'data', ( chunk ) ->
@@ -33,6 +32,8 @@ exports = module.exports =
                     streams = JSON.parse( data ).streams
                 catch error
                     console.log error
+                
+                printer.clear()
                 printer.streams streams
 
         .on 'error', ( err ) ->
