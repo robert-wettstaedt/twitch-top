@@ -18,6 +18,12 @@
   "bugs": {
     "url": "https://github.com/r-wettstaedt/twitch-top/issues"
   },
+  "keywords": [
+    "twitch",
+    "stream",
+    "livestream",
+    "cli"
+  ],
   "homepage": "https://github.com/r-wettstaedt/twitch-top",
   "dependencies": {
     "chalk": "^1.1.0",
