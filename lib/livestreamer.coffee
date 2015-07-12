@@ -25,7 +25,7 @@ exports = module.exports =
 
         return if !@stream?
 
-        url     = "twitch.tv/#{@stream.channel.name}"
+        url = "twitch.tv/#{@stream.channel.name}"
 
         printer.selectedStream @stream
 

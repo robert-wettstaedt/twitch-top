@@ -3,22 +3,27 @@ https   = require 'https'
 printer = require './printer'
 input   = require './input'
 
-offset  = 0
-limit   = 9
-streams = []
+config  = null
+resetConfig = ->
+    config = 
+        offset  : 0
+        limit   : 9
+        streams : []
 
 input.on 'loadStreams', ( opts ) ->
-    offset = 0 if opts.refresh
-    offset += limit if opts.more
+    resetConfig() if opts.refresh
+    config.offset += config.limit if opts.more
     exports.fetch()
 
 
 exports = module.exports =
 
     fetch : ->
+
+        config ?= resetConfig()
         
         printer.fetching()
-        url = "https://api.twitch.tv/kraken/streams?limit=#{limit}&offset=#{offset}"
+        url = "https://api.twitch.tv/kraken/streams?limit=#{config.limit}&offset=#{config.offset}"
 
         https.request url , ( res ) ->
 
@@ -29,12 +34,13 @@ exports = module.exports =
 
             res.on 'end', ->
                 try
-                    streams = JSON.parse( data ).streams
+                    for stream in JSON.parse( data ).streams
+                        config.streams.push stream
                 catch error
                     console.log error
                 
                 printer.clear()
-                printer.streams streams
+                printer.streams config.streams
 
         .on 'error', ( err ) ->
             console.log err
@@ -44,8 +50,8 @@ exports = module.exports =
 
     get : ( index ) ->
 
-        if streams[ index - 1 ]?
-            streams[ index - 1 ]
+        if config.streams[ index - 1 ]?
+            config.streams[ index - 1 ]
         else
             printer.invalidStream()
             null
