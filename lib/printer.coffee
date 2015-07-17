@@ -48,7 +48,7 @@ module.exports =
         output = ''
 
         output += '\t'
-        output += "Selected quality: #{config.read().quality}"
+        output += "Selected quality: #{chalk.yellow config.read().quality}"
         output += '\n'
 
         console.log output

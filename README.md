@@ -2,7 +2,7 @@
 
 ### Overview
 
-twitch-top enables you to browse Twitch's live channels from your command line. Select one and watch it with either with [livestreamer][] or your browser.
+twitch-top enables you to browse Twitch's live channels from your command line. Select one and watch it either with [livestreamer][] or your browser.
 
 [livestreamer]: http://livestreamer.tanuki.se/
 
