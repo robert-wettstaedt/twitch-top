@@ -1,6 +1,6 @@
 {
   "name": "twitchtop",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Browse Twitch live channels from your command line; select one and watch it",
   "main": "lib",
   "bin": {
