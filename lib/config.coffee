@@ -20,7 +20,14 @@ module.exports =
 
         if fs.existsSync configPath
 
-            config = JSON.parse fs.readFileSync configPath
+            file = fs.readFileSync configPath
+            try 
+                config = JSON.parse file
+            catch
+                @write defaultConfig
+                file = fs.readFileSync configPath
+                config = JSON.parse file
+
             config = @normalize config
 
             @write config
