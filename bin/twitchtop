@@ -1,5 +1,10 @@
 #!/usr/bin/env node
-
 require( 'coffee-script/register' );
 
-require( '../lib' )
+if ( process.argv.length <= 2) {
+    require( '../lib' );
+} else if ( process.argv[2] === 'login' ) {
+     require( '../lib/login' );
+} else {
+    console.log( 'Invalid parameter' );
+}

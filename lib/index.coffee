@@ -1,4 +1,5 @@
 fs = require 'fs'
 
 for dir in fs.readdirSync __dirname
-    require "./#{dir}"
+    if -1 < dir.indexOf '.'
+        require "./#{dir}"

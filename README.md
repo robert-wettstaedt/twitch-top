@@ -18,6 +18,11 @@ and run with
 twitchtop
 ```
 
+login with your Twitch account
+```bash
+twitchtop login
+```
+
 ![Startup prompt](http://i.imgur.com/UFbOpKd.png?1)
 
 
