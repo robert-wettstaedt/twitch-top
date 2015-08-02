@@ -13,22 +13,23 @@ Install with
 npm install -g twitchtop
 ```
 
-and run with
+Run with
 ```bash
 twitchtop
 ```
 
-login with your Twitch account
+Login with your Twitch account - This allows to Twitchtop to print your followed channels
 ```bash
 twitchtop login
 ```
+
 
 ![Startup prompt](http://i.imgur.com/UFbOpKd.png?1)
 
 
 ### Roadmap
 * Adapt number of streams per page to terminal window height
-* Login with credentials to browse followed channels
+✓ Login with credentials to browse followed channels
 
 ### License
 

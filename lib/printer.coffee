@@ -11,6 +11,7 @@ module.exports =
 
 
     clear : ->
+
         process.stdout.clearLine()
         process.stdout.cursorTo 0
 
@@ -25,21 +26,41 @@ module.exports =
         process.stdout.write output
 
 
-    streams : ( streams ) ->
-        
-        output = ''
+    streams : ( followingCount, streams ) ->
 
-        for stream, index in streams
+        printStream = ( stream, index ) ->
             indexLength = index.toString().length
             output += "[#{index + 1}] - #{chalk.green stream.channel.display_name} (#{stream.channel.name}) - #{stream.viewers}"
-            output += "\n"
+            output += '\n'
             output += " Game : #{stream.channel.game}"
-            output += "\n"
+            output += '\n'
             output += " Status : #{stream.channel.status}"
 
             output += "\n ----- \n"
 
-        console.log output
+        output = ''
+
+        if followingCount > 0
+            output += '\n'
+            output += '\n'
+            output += 'Your followed channels:'
+            output += '\n'
+            output += '\n'
+            for index in [0...followingCount]
+                printStream streams[index], index
+
+        output += '\n'
+        output += '\n'
+        output += 'Top channels:'
+        output += '\n'
+        output += '\n'
+        for index in [followingCount...streams.length]
+            printStream streams[index], index
+
+        if debug
+            console.log "\t#{chalk.green 'Results'}"
+        else
+            console.log output
         @help()
 
 

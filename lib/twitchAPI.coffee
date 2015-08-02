@@ -1,46 +1,42 @@
 https   = require 'https'
+qs      = require 'querystring'
 
 printer = require './printer'
 input   = require './input'
+config  = require './config'
 
-config  = null
-resetConfig = ->
-    config = 
+state  = null
+resetState = ->
+    state =
         offset  : 0
         limit   : 9
         streams : []
 
 input.on 'loadStreams', ( opts ) ->
-    resetConfig() if opts.refresh
-    config.offset += config.limit if opts.more
+    resetState() if opts.refresh
+    state.offset += state.limit if opts.more
     exports.fetch()
 
 
 exports = module.exports =
 
-    fetch : ->
+    startRequest : ( path, params, cb ) ->
 
-        config ?= resetConfig()
-        
-        printer.fetching()
-        url = "https://api.twitch.tv/kraken/streams?limit=#{config.limit}&offset=#{config.offset}"
+        params  = qs.stringify params
+        url     = "https://api.twitch.tv/kraken/#{path}?#{params}"
 
-        https.request url , ( res ) ->
+        https.request url, ( res ) ->
 
-            data = ''
+            data    = ''
 
             res.on 'data', ( chunk ) ->
                 data += chunk
 
             res.on 'end', ->
                 try
-                    for stream in JSON.parse( data ).streams
-                        config.streams.push stream
+                    cb JSON.parse( data ).streams
                 catch error
                     console.log error
-                
-                printer.clear()
-                printer.streams config.streams
 
         .on 'error', ( err ) ->
             console.log err
@@ -48,10 +44,44 @@ exports = module.exports =
         .end()
 
 
+    fetch : ->
+
+        concatChannels = ->
+            if callbacks >= 0
+                state.streams = state.streams.concat fChannels, channels
+                printer.clear()
+                printer.streams fChannels.length, state.streams
+
+        printer.fetching()
+
+        state ?= resetState()
+
+        fChannels       = []
+        channels        = []
+        getFollowing    = state.offset is 0 and ( token = config.read().token )?
+        callbacks       = if getFollowing then -2 else -1
+
+        if getFollowing
+            @startRequest '/streams/followed',
+                oauth_token : token
+            , ( streams ) ->
+                ++callbacks
+                fChannels = streams
+                concatChannels()
+
+        @startRequest '/streams',
+            limit : state.limit
+            offset : state.offset
+        , ( streams ) ->
+            ++callbacks
+            channels = streams
+            concatChannels()
+
+
     get : ( index ) ->
 
-        if config.streams[ index - 1 ]?
-            config.streams[ index - 1 ]
+        if ( stream = state.streams[ index - 1 ] )?
+            stream
         else
             printer.invalidStream()
             null
