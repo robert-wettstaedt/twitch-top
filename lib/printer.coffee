@@ -3,7 +3,7 @@ chalk       = require 'chalk'
 commands    = require './commands'
 config      = require './config'
 
-module.exports = 
+module.exports =
 
     log : ( namespace, msg ) ->
 
@@ -57,10 +57,7 @@ module.exports =
         for index in [followingCount...streams.length]
             printStream streams[index], index
 
-        if debug
-            console.log "\t#{chalk.green 'Results'}"
-        else
-            console.log output
+        console.log output
         @help()
 
 
@@ -94,7 +91,7 @@ module.exports =
 
             if command.args?
                 output += '<'
-                
+
                 for arg, index in command.args
                     output += "#{arg}"
 
@@ -146,7 +143,7 @@ module.exports =
 
         console.log output
 
-        setTimeout => 
+        setTimeout =>
             @help()
         , 300
 
