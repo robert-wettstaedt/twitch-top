@@ -1,6 +1,8 @@
 fs          = require 'fs'
 path        = require 'path'
 
+chalk       = require 'chalk'
+
 configPath  = path.join __dirname, '../config.json'
 
 defaultConfig =
@@ -8,12 +10,17 @@ defaultConfig =
 
 module.exports =
 
-    normalize : ( config ) ->
-        
-        for key, value of defaultConfig
-            if !config[key]?
-                config[key] = value
-        config
+    normalize : ( src, target ) ->
+
+        for key, value of src
+            target[key] = value if !target[key]?
+        target
+
+
+    resetConfig : ->
+
+        @write defaultConfig
+        defaultConfig
 
 
     read : ->
@@ -21,25 +28,23 @@ module.exports =
         if fs.existsSync configPath
 
             file = fs.readFileSync configPath
-            try 
-                config = JSON.parse file
+            try
+                return JSON.parse file
             catch
-                @write defaultConfig
-                file = fs.readFileSync configPath
-                config = JSON.parse file
-
-            config = @normalize config
-
-            @write config
-            config
+                console.log chalk.red 'Could not parse config file. Writing default config..'
+                return @resetConfig()
 
         else
 
-            @write defaultConfig
-            defaultConfig
+            console.log chalk.red 'Config does not exist. Writing default config..'
+            @resetConfig()
 
 
-    write : ( config ) ->
+    write : ( newConfig ) ->
 
-        config = @normalize config
+        config = @read()
+        config = @normalize config, newConfig
+        config = @normalize defaultConfig, config
+
         fs.writeFileSync configPath, JSON.stringify config, null, '\t'
+
