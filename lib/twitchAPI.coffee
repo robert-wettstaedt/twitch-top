@@ -34,12 +34,17 @@ exports = module.exports =
 
             res.on 'end', ->
                 try
-                    cb JSON.parse( data ).streams
+                    data = JSON.parse data
+                    if data.streams?
+                        return cb data.streams
+
+                    throw new Error data
+
                 catch error
-                    console.log error
+                    printer.error null, 'There is an error with the Twitch API, please try again'
 
         .on 'error', ( err ) ->
-            console.log err
+            printer.error null, err.message
 
         .end()
 
@@ -64,6 +69,7 @@ exports = module.exports =
         if getFollowing
             @startRequest '/streams/followed',
                 oauth_token : token
+                client_id : config.read().client_id
             , ( streams ) ->
                 ++callbacks
                 fChannels = streams
@@ -72,6 +78,7 @@ exports = module.exports =
         @startRequest '/streams',
             limit : state.limit
             offset : state.offset
+            client_id : config.read().client_id
         , ( streams ) ->
             ++callbacks
             channels = streams

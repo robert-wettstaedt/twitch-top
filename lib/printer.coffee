@@ -7,7 +7,18 @@ module.exports =
 
     log : ( namespace, msg ) ->
 
-        console.log "[#{namespace}] #{msg}"
+        if namespace
+            console.log "\n[#{namespace}] #{msg}"
+        else
+            console.log "\n#{msg}"
+
+
+    error : ( namespace, msg ) ->
+
+        if namespace
+            @log chalk.red( namespace ), chalk.red msg
+        else
+            @log namespace, chalk.red msg
 
 
     clear : ->

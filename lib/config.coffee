@@ -7,6 +7,7 @@ configPath  = path.join __dirname, '../config.json'
 
 defaultConfig =
     quality : 'best'
+    client_id : '5osa4ys4mwcec07kqyb9i68d8bhl85k'
 
 module.exports =
 
